@@ -11,9 +11,9 @@ import entorno.InterfaceJuego;
 public class Juego extends InterfaceJuego {
 	private Image fondo;
 
-	public static final int WIDTH_JUEGO = 600;
-	public static final int HEIGHT = 600;
-	public static final int WIDTH_TOTAL = 800;
+	public static final int WIDTH_JUEGO = 600;	//Ancho de ventana del juego
+	public static final int HEIGHT = 600;		//Alto de la ventana del juego
+	public static final int WIDTH_TOTAL = 800;	//Ancho total de la ventana + menu
 
 	private Entorno entorno;
 	private Gondolf gondolf;
@@ -24,8 +24,8 @@ public class Juego extends InterfaceJuego {
 
 	private int enemigosEliminados;
 	private int enemigosGenerados = 0;
-	private final int MAX_ENEMIGOS_VIVOS = 20;
-	private final int TOTAL_ENEMIGOS = 150;
+	private final int MAX_ENEMIGOS_VIVOS = 8;	//Cantidad de murcielagos en pantalla a la vez
+	private final int TOTAL_ENEMIGOS = 80;		//Cantidad de enemigos que tengo que matar para ganar
 
 	private boolean juegoTerminado = false;
 	private String mensajeFinJuego = "";
@@ -39,18 +39,18 @@ public class Juego extends InterfaceJuego {
 		this.entorno = new Entorno(this, "El camino de Gondolf - Grupo 13", WIDTH_TOTAL, HEIGHT);
 		this.fondo = new ImageIcon(getClass().getResource("/imagenes/fondo.png")).getImage();
 
-		this.gondolf = new Gondolf(300, 300);
+		this.gondolf = new Gondolf(300, 300);	//Ubicacion inicial de Gondolf
 
-		this.rocas = new ArrayList<>();
-		rocas.add(new Roca(150, 150));
+		this.rocas = new ArrayList<>();			//Lista de generacion de rocas (5 rocas)
+		rocas.add(new Roca(150, 150));			//Ubicacion de rocas de forma individual
 		rocas.add(new Roca(400, 250));
 		rocas.add(new Roca(300, 500));
 		rocas.add(new Roca(100, 400));
 		rocas.add(new Roca(500, 100));
 
-		this.murcielagos = new ArrayList<>();
+		this.murcielagos = new ArrayList<>();	//Lista de generacion de murcielagos
 
-		this.hechizos = new ArrayList<>();
+		this.hechizos = new ArrayList<>();		//Lista de hechizos
 		hechizos.add(new Hechizo("Fuego", 100, 30, Color.black));
 		hechizos.add(new Hechizo("Hielo", 80, 20, Color.black));
 

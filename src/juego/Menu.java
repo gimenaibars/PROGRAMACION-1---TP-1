@@ -49,10 +49,10 @@ public class Menu {
 
         entorno.dibujarRectangulo(menuX + menuAncho / 2, menuAlto / 2, menuAncho, menuAlto, 0, new Color(226, 196, 172));
 
-        entorno.cambiarFont(null, 16, Color.BLACK);
-        entorno.escribirTexto("Vida: " + vida, menuX + 50, 20);
-        entorno.escribirTexto("Magia: " + magia, menuX + 50, 40);
-        entorno.escribirTexto("Eliminados: " + eliminados, menuX + 50, 60);
+        entorno.cambiarFont("Verdana", 16, Color.BLACK);
+        entorno.escribirTexto("Vida: " + vida, menuX + 20, 20);
+        entorno.escribirTexto("Magia: " + magia, menuX + 20, 40);
+        entorno.escribirTexto("Eliminados: " + eliminados, menuX + 20, 60);
 
         int barraX = menuX + 50;
         int barraY = 70;
@@ -80,20 +80,20 @@ public class Menu {
 
             Color colorBoton;
             if (!disponible) {
-                colorBoton = Color.GRAY;
+                colorBoton = Color.BLACK; //Color del boton inhabilitado
             } else if (h == seleccionado) {
-                colorBoton = Color.GREEN;
+                colorBoton = Color.YELLOW; //Color del boton seleccionado
             } else {
-                colorBoton = Color.LIGHT_GRAY;
+                colorBoton = Color.LIGHT_GRAY; //Color del boton normal
             }
 
-            entorno.dibujarRectangulo(botonX + botonAncho / 2, yBoton + botonAltura / 2, botonAncho, botonAltura, 10, colorBoton);
-            entorno.cambiarFont(null, 14, disponible ? Color.BLACK : Color.DARK_GRAY);
-            entorno.escribirTexto(h.getNombre() + " (M:" + h.getCostoMagia() + ")", botonX + 5, yBoton + 25);
+            entorno.dibujarRectangulo(botonX + botonAncho / 2, yBoton + botonAltura / 2, botonAncho, botonAltura, 0, colorBoton);
+            entorno.cambiarFont("Constantia", 16, disponible ? Color.BLACK : Color.DARK_GRAY);
+            entorno.escribirTexto(h.getNombre(), botonX + 20, yBoton + 25);
 
             if (!disponible) {
                 entorno.cambiarFont(null, 12, Color.RED);
-                entorno.escribirTexto("No magia", botonX + 15, yBoton + 38);
+                entorno.escribirTexto("", botonX + 15, yBoton + 38);
             }
 
         }

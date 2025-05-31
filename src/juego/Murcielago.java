@@ -6,7 +6,7 @@ import entorno.Entorno;
 
 public class Murcielago {
     private double x, y;
-    private double velocidad = 1.5; // velocidad del murciélago
+    private double velocidad = 0.5; // velocidad del murciélago
     private int ancho = 30;
     private int alto = 30;
     private boolean vivo = true;
