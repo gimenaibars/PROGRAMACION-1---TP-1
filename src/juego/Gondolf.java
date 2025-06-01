@@ -27,11 +27,9 @@ public class Gondolf {
         if (imagen == null) {
             System.out.println("ERROR: Imagen de Gondolf no cargada.");
         }
-        
-        
-    }
-
     
+    }
+  
     public void mover(double dx, double dy, ArrayList<Roca> rocas) {
         double nuevaX = x + dx;
         double nuevaY = y + dy;

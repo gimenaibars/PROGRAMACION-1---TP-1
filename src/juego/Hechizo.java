@@ -20,16 +20,14 @@ public class Hechizo {
     public void lanzar(int x, int y, ArrayList<Murcielago> murcielagos, Gondolf gondolf) {
         long tiempoActual = System.currentTimeMillis();
         
-        // Limites de la ventana visible (pueden ser constantes)
+        // Limites de la ventana visible
         int anchoVisible = 600;
         int altoVisible = 600;
         
         if (nombre.equals("Hielo")) {
-            double rango = this.area;  // usa el atributo area, ej: 80
-            
+            double rango = this.area;        
             for (Murcielago m : murcielagos) {
-                if (m.estaVivo()) {
-                    // Verifico que el murcielago esté dentro de la ventana visible
+                if (m.estaVivo()) {  // Verifico que el murcielago esté dentro de la ventana visible
                     if (m.getX() >= 0 && m.getX() <= anchoVisible && m.getY() >= 0 && m.getY() <= altoVisible) {
                         double dx = m.getX() - x;
                         double dy = m.getY() - y;
@@ -42,9 +40,9 @@ public class Hechizo {
                 }
             }
         } else if (nombre.equals("Fuego")) {
-            double rango = this.area; // rango del fuego
+            double rango = this.area; 
             for (Murcielago m : murcielagos) {
-                if (m.estaVivo()) {
+                if (m.estaVivo()) {  // Verifico que el murcielago esté dentro de la ventana visible
                     if (m.getX() >= 0 && m.getX() <= anchoVisible && m.getY() >= 0 && m.getY() <= altoVisible) {
                         double dx = m.getX() - x;
                         double dy = m.getY() - y;
@@ -52,6 +50,7 @@ public class Hechizo {
 
                         if (distancia <= rango) {
                             m.quemar(tiempoActual);
+                            m.marcarComoEliminadoPorJugador();
                             m.morir();
                         }
                     }
