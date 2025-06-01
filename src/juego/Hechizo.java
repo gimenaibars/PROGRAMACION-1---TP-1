@@ -17,8 +17,9 @@ public class Hechizo {
     }
 
  // Hechizo.java
-    public void lanzar(int x, int y, ArrayList<Murcielago> murcielagos, Gondolf gondolf) {
-        long tiempoActual = System.currentTimeMillis();
+    public boolean lanzar(int x, int y, ArrayList<Murcielago> murcielagos, Gondolf gondolf) {
+        boolean afectoAlguno = false; 
+    	long tiempoActual = System.currentTimeMillis();
         
         // Limites de la ventana visible
         int anchoVisible = 600;
@@ -35,6 +36,7 @@ public class Hechizo {
 
                         if (distancia <= rango) {
                             m.congelar(tiempoActual);
+                            afectoAlguno = true; // Cambia el estado a true, inicializamos en false
                         }
                     }
                 }
@@ -52,12 +54,15 @@ public class Hechizo {
                             m.quemar(tiempoActual);
                             m.marcarComoEliminadoPorJugador();
                             m.morir();
+                            afectoAlguno = true; // Cambia el estado a true, inicializamos en false
                         }
                     }
                 }
             }
         }
+		return afectoAlguno;
     }
+    
 
 
     public String getNombre() { return nombre; }
