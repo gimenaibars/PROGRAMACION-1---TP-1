@@ -6,7 +6,6 @@ import entorno.Entorno;
 
 public class Murcielago {
     private double x, y;
-    private double velocidad = 0.5; // velocidad del murciélago
     private int ancho = 30;
     private int alto = 30;
     private boolean vivo = true;
@@ -18,6 +17,7 @@ public class Murcielago {
     private boolean quemado = false;
     private long tiempoDesquemado = 0;
     private long muertoVisibleHasta = 0;
+    private boolean eliminadoPorJugador = false; 
     
     public Murcielago(double x, double y) {
         this.x = x;
@@ -27,7 +27,14 @@ public class Murcielago {
         this.imagenCongelado = new ImageIcon(getClass().getResource("/imagenes/murcielago_hielo.png")).getImage();
         this.imagenQuemado = new ImageIcon(getClass().getResource("/imagenes/murcielago_fuego.png")).getImage();
     }
-
+  
+    public void marcarComoEliminadoPorJugador() {
+    	this.eliminadoPorJugador = true;
+    }
+    public boolean fueEliminadoPorJugador() {
+    	return this.eliminadoPorJugador;
+    }
+   
     public void congelar(long tiempoActual) {
         congelado = true;
         tiempoDescongelacion = tiempoActual + 3000; // 3 segundos
@@ -37,8 +44,8 @@ public class Murcielago {
         vivo = false;
         congelado = false;
         quemado = false;
+        
     }
-
 
     public void quemar(long ahora) {
         quemado = true;
@@ -69,16 +76,16 @@ public class Murcielago {
         }
     }
     
-    public void perseguir(Gondolf gondolf) {
+    public void perseguir(Gondolf gondolf, double velocidad) {
         if (!vivo || congelado) return;
 
         double dx = gondolf.getX() - x;
         double dy = gondolf.getY() - y;
         double distancia = Math.sqrt(dx*dx + dy*dy);
-
-        if (distancia != 0) {
-            x += velocidad * dx / distancia;
-            y += velocidad * dy / distancia;
+   
+        if (distancia > 0) {
+            this.x += (dx / distancia) * velocidad;
+            this.y += (dy / distancia) * velocidad;
         }
     }
 
@@ -127,7 +134,7 @@ public class Murcielago {
             if (!quemado) {
                 quemar(System.currentTimeMillis());
             }
-            muertoVisibleHasta = System.currentTimeMillis() + 300; // mostrar 0.3 seg (opcional)
+            muertoVisibleHasta = System.currentTimeMillis() + 300; // mostrar 0.3 seg 
         }
     }
 
