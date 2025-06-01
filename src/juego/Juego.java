@@ -6,6 +6,7 @@ import java.util.Random;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import entorno.Entorno;
+import entorno.Herramientas;
 import entorno.InterfaceJuego;
 
 
@@ -48,17 +49,19 @@ public class Juego extends InterfaceJuego {
 
 	public Juego() {
 		//CONSTRUCTOR
-		this.entorno = new Entorno(this, "El camino de Gondolf - Grupo 13", WIDTH_TOTAL, HEIGHT);
+		this.entorno = new Entorno(this, "El camino de Gondolf - Grupo 13 - BETHGE-IBARS-RODRIGUEZ", WIDTH_TOTAL, HEIGHT);
 		this.fondo = new ImageIcon(getClass().getResource("/imagenes/fondo.png")).getImage();
 		this.fondomenu = new ImageIcon(getClass().getResource("/imagenes/fondomenu.png")).getImage();
-
+		
 		this.gondolf = new Gondolf(300, 300);
+		Herramientas.loop("sonido/musicadefondo.wav"); // Musica de fondo (todo momento)
 		
 		//inicio niveles
 		niveles = new Nivel[] {
 			    new Nivel(1, 5, 1.0),  // Nivel 1: matar 5 murciélagos, velocidad normal
 			    new Nivel(2, 10, 1.3),  // Nivel 2: matar 8 murciélagos, más rápido
 			    new Nivel(3, 20, 1.6)  // Nivel 3: matar 12 murciélagos, aún más rápido
+			    
 			};
 			nivelActualIndex = 0;
 			nivelActual = niveles[nivelActualIndex];
@@ -112,10 +115,10 @@ public class Juego extends InterfaceJuego {
 		
 
 		public void dibujar(Entorno entorno) {
-		    float proporcion = (float) ticksRestantes / 30f; //30 ticks, va de 1.0 a 0.0
+		    float proporcion = (float) ticksRestantes / 30f; // si dura 30 ticks, va de 1.0 a 0.0
 		    int alpha = (int)(color.getAlpha() * proporcion);
 
-		    
+		    // Nos aseguramos de que no sea menor a 0
 		    alpha = Math.max(0, alpha);
 
 		    Color colorFade = new Color(
@@ -196,16 +199,30 @@ public class Juego extends InterfaceJuego {
 			} else {
 				Hechizo h = menu.getHechizoSeleccionado();
 				if (h != null && gondolf.puedeUsarHechizo(h.getCostoMagia())) {
-				    //Dibuja el area de efecto antes de lanzar
-				    areasHechizo.add(new AreaHechizo((int)gondolf.getX(), (int)gondolf.getY(), h.getArea(), h.getColor(), 30)); // 30 ticks (~0.5 segundos)
-
-				    int centroX = (int) gondolf.getX();
-				    int centroY = (int) gondolf.getY();
-				    h.lanzar(centroX, centroY, murcielagos, gondolf);
 				    
-	
-				    gondolf.consumirMagia(h.getCostoMagia());
-				    menu.deseleccionar();
+
+				//iniciamos el cambio de efecto magia  
+				    //Dibuja el area de efecto antes de lanzar
+					if (h != null && gondolf.puedeUsarHechizo(h.getCostoMagia())) {
+
+					    int centroX = (int) gondolf.getX();
+					    int centroY = (int) gondolf.getY();
+
+					    areasHechizo.add(new AreaHechizo(centroX, centroY, h.getArea(), h.getColor(), 30));
+
+					    boolean afecto = h.lanzar(centroX, centroY, murcielagos, gondolf);
+
+					    if (afecto) {
+					        if (h.getNombre().equals("Fuego")) {
+					            Herramientas.play("sonido/musicafuego.wav"); // Sonido de fuego al estar clickeado el poder
+					        } else if (h.getNombre().equals("Hielo")) {
+					            Herramientas.play("sonido/musicahielo.wav"); // Sonido de hielo al estar clickeado el poder
+					        }
+					    }
+
+					    gondolf.consumirMagia(h.getCostoMagia());
+					    menu.deseleccionar();
+					}
 				
 
 				} else if (h == null) {
@@ -214,7 +231,9 @@ public class Juego extends InterfaceJuego {
 							m.eliminarSinAnimacion();
 							//21:49
 							m.marcarComoEliminadoPorJugador();
-							efectos.add(new EfectoVisual((int)m.getX(), (int)m.getY(),20,15)); //3er parametro rango EfectoVisual
+							//AGREGO PARA EFECTO VISUAL MURCIELAGO 
+							efectos.add(new EfectoVisual((int)m.getX(), (int)m.getY(),20,15)); //tercer parametro rango del EfectoVisual
+							Herramientas.play("sonido/musicaefectoaplastar.wav"); // Sonido al clickear arriba de los murcielagos para matarlos
 							break;
 						}
 					}
@@ -233,7 +252,7 @@ public class Juego extends InterfaceJuego {
 
 		entorno.dibujarImagenConCentro(fondo, WIDTH_JUEGO / 2, HEIGHT / 2, anchoOriginal / 2.0, altoOriginal / 2.0, 0, escala);
 		
-		//Dibuja areas de hechizo activa
+		//Dibujar areas de hechizo activas
 		areasHechizo.removeIf(area ->!area.estaActivo());
 		for (AreaHechizo area : areasHechizo) {
 			area.dibujar(entorno);
@@ -247,7 +266,7 @@ public class Juego extends InterfaceJuego {
 
 		menu.dibujar(entorno, this.fondomenu, hechizos, menu.getHechizoSeleccionado(), gondolf.getVida(), gondolf.getMagia(), enemigosEliminados);
 		
-		//dibuja el EfectoVisual
+		//dibujar el EfectoVisual
 		efectos.removeIf(e -> !e.estaActivo());
 		for (EfectoVisual ef : efectos) {
 			ef.dibujar(entorno);
