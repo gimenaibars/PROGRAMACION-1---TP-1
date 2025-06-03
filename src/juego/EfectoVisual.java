@@ -23,7 +23,7 @@ public class EfectoVisual {
 	public void dibujar(Entorno entorno) {
 		if (ticksRestantes > 0) {
 			float alpha = (float) ticksRestantes / duracion;
-			Color color = new Color(255, 255, 255, (int)(alpha * 120)); // Color del Efecto y transparencia
+			Color color = new Color(255, 255, 255, (int)(alpha * 120)); // COLOR DEL EFECTO Y TRANSPARENCIA
 			entorno.dibujarCirculo(x, y, radio * 2, color);
 			ticksRestantes--;
 		}

@@ -35,9 +35,10 @@ public class Murcielago {
     	return this.eliminadoPorJugador;
     }
    
+    // CUANDO LA FUNCION ESTA ACTIVA DURA 3 SEGUNDOS
     public void congelar(long tiempoActual) {
         congelado = true;
-        tiempoDescongelacion = tiempoActual + 3000; // 3 segundos
+        tiempoDescongelacion = tiempoActual + 3000;
     }
     
     public void eliminarSinAnimacion() {
@@ -46,10 +47,11 @@ public class Murcielago {
         quemado = false;
         
     }
-
+    
+    // CUANDO LA FUNCION ESTA ACTIVA MUESTRA LA IMAGEN DE FUEGO POR 2 SEGUNDOS
     public void quemar(long ahora) {
         quemado = true;
-        tiempoDesquemado = ahora + 2000;  // 2 segundos de imagen de fuego
+        tiempoDesquemado = ahora + 2000; 
         if (vivo) {
             vivo = false;
         }
@@ -112,7 +114,19 @@ public class Murcielago {
             }
         }
     }
+    
+    public void moverAfueraDe(double x, double y) {
+        double dx = this.x - x;
+        double dy = this.y - y;
+        double distancia = Math.hypot(dx, dy);
 
+        if (distancia != 0) {
+            this.x += (dx / distancia) * 1.5;
+            this.y += (dy / distancia) * 1.5;
+        }
+    }
+
+    // RANGO DONDE ACTUA LA COLISION CONTRA GONDOLF
     public boolean colisiona(Gondolf gondolf) {
         final int gondolfAncho = 40;
         final int gondolfAlto = 40;
@@ -120,10 +134,11 @@ public class Murcielago {
                (Math.abs(gondolf.getY() - y) * 2 < (alto + gondolfAlto));
     }
 
+    // ACCION DEL MURCIELAGO CUANDO COLISIONA CON GONDOLF
     public void atacarSiColisiona(Gondolf gondolf) {
         if (vivo && colisiona(gondolf)) {
-            gondolf.perderVida(10);  // Quitar 10 puntos de vida
-            this.eliminarSinAnimacion();  // Murciélago muere inmediatamente sin animación
+            gondolf.perderVida(10);  // QUITA 10 PUNTOS DE VIDA A GONDOLF
+            this.eliminarSinAnimacion();  // MURCIELAGO MUERE INMEDIATAMENTE SIN ANIMACION
         }
     }
 
@@ -134,7 +149,7 @@ public class Murcielago {
             if (!quemado) {
                 quemar(System.currentTimeMillis());
             }
-            muertoVisibleHasta = System.currentTimeMillis() + 300; // mostrar 0.3 seg 
+            muertoVisibleHasta = System.currentTimeMillis() + 300; // MUESTRA POR 0.3 SEGUNDOS
         }
     }
 

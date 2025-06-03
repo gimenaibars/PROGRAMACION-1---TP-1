@@ -18,7 +18,6 @@ public class Roca {
     }
 
     public void dibujar(Entorno entorno) {
-        // Escala si la imagen no es 50x50
         double escalaX = (double) ancho / imagen.getWidth(null);
         double escalaY = (double) alto / imagen.getHeight(null);
         double escala = Math.min(escalaX, escalaY);
@@ -33,9 +32,17 @@ public class Roca {
         );
     }
 
-    // Colisión simple rectangular
+    // COLISION
     public boolean colisiona(double xObjeto, double yObjeto, int anchoObjeto, int altoObjeto) {
         return (Math.abs(x - xObjeto) * 2 < (ancho + anchoObjeto)) &&
                (Math.abs(y - yObjeto) * 2 < (alto + altoObjeto));
+    }
+    
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
     }
 }

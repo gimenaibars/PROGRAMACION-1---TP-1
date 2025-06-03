@@ -16,34 +16,38 @@ public class Menu {
     }
 
     public void seleccionarHechizo(int mx, int my, ArrayList<Hechizo> hechizos, int magiaActual) {
-        // Coordenadas para la LÓGICA de selección de hechizos
-        int menuX = Juego.WIDTH_JUEGO; // Inicio del panel de menú
-        int menuAncho = Juego.WIDTH_TOTAL - Juego.WIDTH_JUEGO; // Ancho del panel de menú (200)
+        
+    	// COORDENADAS PARA LA LÓGICA DE SELECCION DE HECHIZOS
+        int menuX = Juego.WIDTH_JUEGO; 							// INICIO DEL PANEL MENU
+        int menuAncho = Juego.WIDTH_TOTAL - Juego.WIDTH_JUEGO; // ANCHO DEL PANEL MENU (200)
 
-        int botonAncho = 115; // Un ancho razonable para el botón
+        int botonAncho = 115; 	// ANCHO DEL BOTON
         int botonAltura = 40;
-        // Centramos el botón en el panel del menú
-        int botonX = menuX + (menuAncho - botonAncho) / 2; // X de la esquina superior izquierda del botón
-        int botonYBase = 310; // Donde empieza el primer botón de hechizo (igual que en dibujar)
-        int espaciadoEntreBotones = 124; // Espacio vertical entre botones
-
+        
+        // CENTRAMOS EL BOTON EN EL PANEL DEL MENU
+        int botonX = menuX + (menuAncho - botonAncho) / 2; // X DE LA ESQUINA SUPERIOR IZQUIERDA DEL BOTON
+        int botonYBase = 310; // DONDE EMPIEZA EL PRIMER BOTON DE HECHIZO
+        int espaciadoEntreBotones = 124; // ESPACIO VERTICAL ENTRE BOTONES
+        
         for (int i = 0; i < hechizos.size(); i++) {
             Hechizo h = hechizos.get(i);
-            // Coordenadas Y del botón actual
+            
+            // COORDENADAS Y DEL BOTON ACTUAL
+            
             int yBoton = botonYBase + i * (botonAltura + espaciadoEntreBotones);
 
-            // Crear un Rectangle temporal para la detección del clic
+            // CREA UN RECTANGULO TEMPORAL PARA LA DETECCION DEL CLICK
             Rectangle areaBoton = new Rectangle(botonX, yBoton, botonAncho, botonAltura);
 
             if (areaBoton.contains(mx, my)) {
-                System.out.println("Clic detectado en área de: " + h.getNombre()); // Para depurar
+                System.out.println("Clic detectado en área de: " + h.getNombre()); // DEPURA LA SELECCION
                 if (magiaActual >= h.getCostoMagia()) {
                     hechizoSeleccionado = h;
-                    System.out.println(h.getNombre() + " seleccionado."); // Para depurar
+                    System.out.println(h.getNombre() + " seleccionado."); // DEPURA LA SELECCION
                 } else {
-                    System.out.println("No hay suficiente magia para " + h.getNombre()); // Para depurar
+                    System.out.println("No hay suficiente magia para " + h.getNombre()); // DEPURA LA SELECCION
                 }
-                break; // Salir del bucle una vez que se ha hecho clic en un botón
+                break; // SALE DEL BUCLE UNA VEZ QUE SE HA HECHO CLICK EN UN BOTON
             }
         }
     }
@@ -63,7 +67,8 @@ public class Menu {
         int menuAlto = Juego.HEIGHT;
 
      // ******************* ULTIMO AGREGADO **********************
-        // DIBUJAMOS LA IMAGEN DE FONDO MENU 
+        
+        // DIBUJA LA IMAGEN DE FONDO MENU 
         if (fondomenu != null) {
         	double centroXMenu = menuX + menuAncho / 2.0;
         	double centroYMenu = menuAlto / 2.0;
@@ -72,11 +77,11 @@ public class Menu {
         }
         
 
-        // DIBUJAR TEXTO Y BOTONES
-        entorno.cambiarFont(null, 22, Color.BLACK);
-        entorno.escribirTexto("Vida: " + vida, menuX + 50, 90);
-        entorno.escribirTexto("Magia: " + magia, menuX + 50, 150);
-        entorno.escribirTexto("Eliminados: " + eliminados, menuX + 30, 210);
+        // DIBUJA TEXTO Y BOTONES
+        entorno.cambiarFont("Century", 20, Color.BLACK);	// TIPO DE LETRA, TAMAÑO, COLOR
+        entorno.escribirTexto("Vida: " + vida, menuX + 50, 90);	// TEXTO, UBCACION EN X, UBICACION EN Y
+        entorno.escribirTexto("Magia: " + magia, menuX + 50, 150);	// TEXTO, UBCACION EN X, UBICACION EN Y
+        entorno.escribirTexto("Eliminados: " + eliminados, menuX + 40, 210);	// TEXTO, UBCACION EN X, UBICACION EN Y
 
         
         int barraX = menuX + 50;
@@ -84,7 +89,7 @@ public class Menu {
         int barraAncho = 100;
         int barraAlto = 10;
         
-        // BARRA VIDA Y MANA
+        // BARRA VIDA Y MAGIA
         entorno.dibujarRectangulo(barraX + barraAncho/2, barraY + 30, barraAncho, barraAlto, 0, Color.DARK_GRAY);
         int anchoVida = (int)((vida / 100.0) * barraAncho);
         entorno.dibujarRectangulo(barraX + anchoVida / 2, barraY + 30, anchoVida, barraAlto, 0, Color.RED);
@@ -97,7 +102,7 @@ public class Menu {
 
         int botonX = menuX + 50;
         int botonYBase = 325;
-        int botonAltura = 30;
+        int botonAltura = 40;
         int botonAncho = 100;
 
         for (int i = 0; i < hechizos.size(); i++) {
@@ -105,24 +110,26 @@ public class Menu {
             int yBoton = botonYBase + i * (botonAltura + 120);
             boolean disponible = magia >= h.getCostoMagia();
 
+            
             Color colorBoton;
             if (!disponible) {
-            	colorBoton = new Color(180, 150, 120); 
+            	colorBoton = new Color(215, 0, 0);	//  COLOR EN FORMATO RGB, CUANDO NO ESTA DISPONIBLE
             } else if (h == seleccionado) {
-            	colorBoton = new Color(180, 150, 120); 
+            	colorBoton = new Color(144, 238, 144);	//  CUANDO ESTA SELECCIONADO
             } else {
-                colorBoton = Color.LIGHT_GRAY;
+                colorBoton = Color.LIGHT_GRAY;		//  SI ESTA EN MODO ESPERA
             }
             
          // ******************* ULTIMO AGREGADO **********************
+            
             // CORRECCION DE LOS BOTONES 
             entorno.dibujarRectangulo(botonX + botonAncho / 2, yBoton + botonAltura / 2, botonAncho, botonAltura, 0, colorBoton);
             entorno.cambiarFont(null, 14, disponible ? Color.BLACK : Color.DARK_GRAY);
-            entorno.escribirTexto(h.getNombre() + " (M:" + h.getCostoMagia() + ")", botonX + 5, yBoton + 20);
+            entorno.escribirTexto(h.getNombre(), botonX + 30, yBoton + 20);
 
             if (!disponible) {
-                entorno.cambiarFont(null, 12, Color.RED);
-                entorno.escribirTexto("No magia", botonX + 15, yBoton + 30);
+                entorno.cambiarFont(null, 10, Color.WHITE);
+                entorno.escribirTexto("NO MAGIA", botonX + 22, yBoton + 32);	//  APARECE EL TEXTO CUANDO LOS BOTONES NO ESTAN DISP.
             }
 
         }
